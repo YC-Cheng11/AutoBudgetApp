@@ -9,7 +9,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CalendarPage from './Calendar/CalendarPage';
 import SummaryPage from './Summary/SummaryPage';
 import AccountPage from './Account/AccountPage';
+import SearchPage from './Search/SearchPage';
+import ProvideDataPage from './Other/ProvideDataPage';
 import CreateTask from './Calendar/CreateTaskPage';
+import TodoStore from './data/TodoStore';
+import MonthlyExpense from './RecordList/MonthlyExpense';
+import DailyExpense from './RecordList/DailyExpense';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -33,6 +38,10 @@ class MainPage extends React.PureComponent {
           component={CalendarPage}
           options={{ title: 'Calendar' }} />
         <Stack.Screen
+          name="Search"
+          component={SearchPage}
+          options={{ title: 'Search' }} />
+        <Stack.Screen
           name="Account"
           component={AccountPage}
           options={{ title: 'Account' }} />
@@ -40,12 +49,54 @@ class MainPage extends React.PureComponent {
           name="Summary"
           component={SummaryPage}
           options={{ title: 'Summary' }} />
-        <Stack.Screen name="CreateTask" component={CreateTask} />
+        <Stack.Screen
+          name="Other"
+          component={ProvideDataPage}
+          options={{ title: 'Other' }} />
+        <Stack.Screen name="createTask" component={CreateTask} />
+        <Stack.Screen name="dailyExpense" component={DailyExpense} />
+        <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>
 
     );
   }
 
+  SearchStack() {
+    return (
+      <Stack.Navigator
+        initialRouteName="Search"
+        screenOptions={{
+          headerStyle: { backgroundColor: 'orange' },
+          headerTintColor: '#fff',
+          headerTitleStyle: { fontWeight: 'bold' }
+        }}>
+        <Stack.Screen
+          name="Calendar"
+          component={CalendarPage}
+          options={{ title: 'Calendar' }} />
+        <Stack.Screen
+          name="Search"
+          component={SearchPage}
+          options={{ title: 'Search' }} />
+        <Stack.Screen
+          name="Account"
+          component={AccountPage}
+          options={{ title: 'Account' }} />
+        <Stack.Screen
+          name="Summary"
+          component={SummaryPage}
+          options={{ title: 'Summary' }} />
+        <Stack.Screen
+          name="Other"
+          component={ProvideDataPage}
+          options={{ title: 'Other' }} />
+        <Stack.Screen name="createTask" component={CreateTask} />
+        <Stack.Screen name="dailyExpense" component={DailyExpense} />
+        <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
+      </Stack.Navigator>
+
+    );
+  }
   AccountStack() {
     return (
       <Stack.Navigator
@@ -60,6 +111,10 @@ class MainPage extends React.PureComponent {
           component={CalendarPage}
           options={{ title: 'Calendar' }} />
         <Stack.Screen
+          name="Search"
+          component={SearchPage}
+          options={{ title: 'Search' }} />
+        <Stack.Screen
           name="Account"
           component={AccountPage}
           options={{ title: 'Account' }} />
@@ -67,7 +122,13 @@ class MainPage extends React.PureComponent {
           name="Summary"
           component={SummaryPage}
           options={{ title: 'Summary' }} />
-        <Stack.Screen name="CreateTask" component={CreateTask} />
+        <Stack.Screen
+          name="Other"
+          component={ProvideDataPage}
+          options={{ title: 'Other' }} />
+        <Stack.Screen name="createTask" component={CreateTask} />
+        <Stack.Screen name="dailyExpense" component={DailyExpense} />
+        <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>
     );
   }
@@ -90,10 +151,55 @@ class MainPage extends React.PureComponent {
           component={AccountPage}
           options={{ title: 'Account' }} />
         <Stack.Screen
+          name="Search"
+          component={SearchPage}
+          options={{ title: 'Search' }} />
+        <Stack.Screen
           name="Summary"
           component={SummaryPage}
           options={{ title: 'Summary' }} />
-        <Stack.Screen name="CreateTask" component={CreateTask} />
+        <Stack.Screen
+          name="Other"
+          component={ProvideDataPage}
+          options={{ title: 'Other' }} />
+        <Stack.Screen name="createTask" component={CreateTask} />
+        <Stack.Screen name="dailyExpense" component={DailyExpense} />
+        <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
+      </Stack.Navigator>
+    );
+  }
+  OtherStack() {
+    return (
+      <Stack.Navigator
+        initialRouteName="Other"
+        screenOptions={{
+          headerStyle: { backgroundColor: 'orange' },
+          headerTintColor: '#fff',
+          headerTitleStyle: { fontWeight: 'bold' }
+        }}>
+        <Stack.Screen
+          name="Calendar"
+          component={CalendarPage}
+          options={{ title: 'Calendar' }} />
+        <Stack.Screen
+          name="Account"
+          component={AccountPage}
+          options={{ title: 'Account' }} />
+        <Stack.Screen
+          name="Search"
+          component={SearchPage}
+          options={{ title: 'Search' }} />
+        <Stack.Screen
+          name="Summary"
+          component={SummaryPage}
+          options={{ title: 'Summary' }} />
+        <Stack.Screen
+          name="Other"
+          component={ProvideDataPage}
+          options={{ title: 'Other' }} />
+        <Stack.Screen name="createTask" component={CreateTask} />
+        <Stack.Screen name="dailyExpense" component={DailyExpense} />
+        <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>
     );
   }
@@ -101,53 +207,82 @@ class MainPage extends React.PureComponent {
   render() {
     const { dispatch, effects } = this.props;
     return (
-      <NavigationContainer>
-        <Tab.Navigator
-          initialRouteName="Calendar"
-          tabBarOptions={{
-            activeTintColor: 'orange',
-          }}>
-          <Tab.Screen
-            name="HomeStack"
-            component={this.HomeStack}
-            options={{
-              tabBarLabel: 'Calendar',
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="home"
-                  color={color}
-                  size={size}
-                />
-              ),
-            }} />
-          <Tab.Screen
-            name="AccountStack"
-            component={this.AccountStack}
-            options={{
-              tabBarLabel: 'Account',
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="account"
-                  color={color}
-                  size={size}
-                />
-              ),
-            }} />
-          <Tab.Screen
-            name="SummaryStack"
-            component={this.SummaryStack}
-            options={{
-              tabBarLabel: 'Summary',
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="account-details"
-                  color={color}
-                  size={size}
-                />
-              ),
-            }} />
-        </Tab.Navigator>
-      </NavigationContainer>
+
+      <TodoStore>
+        <NavigationContainer>
+          <Tab.Navigator
+            initialRouteName="Calendar"
+            tabBarOptions={{
+              activeTintColor: 'orange',
+            }}>
+            <Tab.Screen
+              name="HomeStack"
+              component={this.HomeStack}
+              options={{
+                tabBarLabel: 'Calendar',
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="calendar"
+                    color={color}
+                    size={size}
+                  />
+                ),
+              }} />
+            <Tab.Screen
+              name="SearchStack"
+              component={this.SearchStack}
+              options={{
+                tabBarLabel: 'Search',
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="cloud-search"
+                    color={color}
+                    size={size}
+                  />
+                ),
+              }} />
+            {/* <Tab.Screen
+              name="AccountStack"
+              component={this.AccountStack}
+              options={{
+                tabBarLabel: 'Account',
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="account"
+                    color={color}
+                    size={size}
+                  />
+                ),
+              }} /> */}
+            <Tab.Screen
+              name="SummaryStack"
+              component={this.SummaryStack}
+              options={{
+                tabBarLabel: 'Summary',
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="chart-timeline"
+                    color={color}
+                    size={size}
+                  />
+                ),
+              }} />
+            <Tab.Screen
+              name="OtherStack"
+              component={this.OtherStack}
+              options={{
+                tabBarLabel: 'Other',
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="database-plus"
+                    color={color}
+                    size={size}
+                  />
+                ),
+              }} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </TodoStore>
     )
   }
 }

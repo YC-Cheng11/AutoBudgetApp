@@ -26,12 +26,12 @@ const data = {
 };
 class SummaryPage extends React.PureComponent {
   state = {
-
   }
 
   // Local path to file on the device
   render() {
     const { dispatch, effects } = this.props;
+    const { screenWidth } = this.state;
     return (
       <View>
         <Text>Bezier Line Chart</Text>
@@ -80,7 +80,7 @@ class SummaryPage extends React.PureComponent {
         />
         <LineChart
           data={data}
-          width={screenWidth}
+          width={Dimensions.get("window").width}
           height={220}
           chartConfig={chartConfig}
         />

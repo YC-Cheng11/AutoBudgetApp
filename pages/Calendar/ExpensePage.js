@@ -12,6 +12,7 @@ import {
   Image
 } from 'react-native';
 // import { Select, Option } from 'react-native-select-lists';
+import RNPickerSelect from 'react-native-picker-select';
 import Constants from 'expo-constants';
 import { Context } from '../../utils/Context';
 import moment from 'moment';
@@ -248,9 +249,9 @@ class ExpensePage extends React.PureComponent {
                           }
                         })
                       }>
-                      {this.props.photo?
-                      <Image source={{ uri: this.props.photo.uri }} style={{width:200,height:150}} />
-                      :null
+                      {this.props.photo ?
+                        <Image source={{ uri: this.props.photo.uri }} style={{ width: 200, height: 150 }} />
+                        : null
                       }
                       <Text style={styles.date}>
                         Take Photo
@@ -263,6 +264,14 @@ class ExpensePage extends React.PureComponent {
                   </View>
                   <View>
                     <Text style={styles.notes}>Category</Text>
+                    <RNPickerSelect
+                      onValueChange={(value) => this.setState({ category: value })}
+                      items={[
+                        { label: 'Household', value: 'household' },
+                        { label: 'Food', value: 'food' },
+                        { label: 'Hockey', value: 'hockey' },
+                      ]}
+                    />
                     {/* <Picker
                       selectedValue={this.state.category}
                       onValueChange={(itemValue, itemIndex) => this.setState({ category: itemValue })}>

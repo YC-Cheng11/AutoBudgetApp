@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Image
 } from 'react-native';
+import { Select, Option } from 'react-native-select-lists';
 import Constants from 'expo-constants';
 import { Context } from '../../utils/Context';
 import moment from 'moment';
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
   },
   taskContainer: {
-    marginTop: 30,
+    marginTop: 5,
     height: 400,
     width: 327,
     alignSelf: 'center',
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     shadowOpacity: 0.2,
     elevation: 5,
-    padding: 22,
+    padding: 5,
   },
   calenderContainer: {
     marginTop: 30,
@@ -260,9 +261,9 @@ class ExpensePage extends React.PureComponent {
                       />
                     </TouchableOpacity>
                   </View>
-                  {/* <View>
+                  <View>
                     <Text style={styles.notes}>Category</Text>
-                    <Picker
+                    {/* <Picker
                       selectedValue={this.state.category}
                       onValueChange={(itemValue, itemIndex) => this.setState({ category: itemValue })}>
                       <Picker.Item label="Please select" value="" />
@@ -271,8 +272,16 @@ class ExpensePage extends React.PureComponent {
                       <Picker.Item label="Transportation" value="transportation" />
                       <Picker.Item label="Social Life" value="socialLife" />
                       <Picker.Item label="Beauty" value="beauty" />
-                    </Picker>
-                  </View> */}
+                    </Picker> */}
+                    <Select>
+                      <Option value={""}>Please select</Option>
+                      <Option value={"food"}>Food</Option>
+                      <Option value={"household"}>Household</Option>
+                      <Option value={"transportation"}>Transportation</Option>
+                      <Option value={"socialLife"}>Social Life</Option>
+                      <Option value={"beauty"}>Beauty</Option>
+                    </Select>
+                  </View>
                   <View>
                     <Text style={styles.notes}>Item</Text>
                     <TextInput
@@ -321,12 +330,12 @@ class ExpensePage extends React.PureComponent {
                   </View>
                 </View>
                 <TouchableOpacity
-                  disabled={this.state.amount === '' || this.state.item === '' || this.state.category === ''}
+                  disabled={this.state.amount === '' || this.state.item === ''}// || this.state.category === ''}
                   style={[
                     styles.createTaskButton,
                     {
                       backgroundColor:
-                        this.state.amount === '' || this.state.item === '' || this.state.category === ''
+                        this.state.amount === '' || this.state.item === '' //|| this.state.category === ''
                           ? 'rgba(46, 102, 231,0.5)'
                           : '#2E66E7',
                     },

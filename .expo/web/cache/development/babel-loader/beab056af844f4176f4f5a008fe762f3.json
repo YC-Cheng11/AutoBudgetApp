@@ -1,0 +1,1 @@
+{"ast":null,"code":"import global from \"./globalModel\";\nexport default [global];","map":{"version":3,"sources":["D:/UWE/FYP/AutoBudgetApplication/models/index.js"],"names":["global"],"mappings":"AAAA,OAAOA,MAAP;AAEA,eAAe,CAACA,MAAD,CAAf","sourcesContent":["import global from './globalModel';\r\n\r\nexport default [global];"]},"metadata":{},"sourceType":"module"}

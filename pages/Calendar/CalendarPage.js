@@ -29,7 +29,7 @@ class CalendarPage extends React.PureComponent {
     isDateTimePickerVisible: false,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     console.log("here");
     console.log(this.state.currentDate);
     this.onDayPress({ dateString: this.state.currentDate });

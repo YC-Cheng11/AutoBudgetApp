@@ -88,7 +88,7 @@ export default class TodoStore extends Component {
     }
   };
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     try {
       const todo = await AsyncStorage.getItem('TODO');
       if (todo !== null) {

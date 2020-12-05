@@ -9,6 +9,7 @@ import {
   TextInput,
   Keyboard,
   StyleSheet,
+  Image
 } from 'react-native';
 // import { Select, Option } from 'react-native-select-lists';
 import Constants from 'expo-constants';
@@ -247,6 +248,10 @@ class ExpensePage extends React.PureComponent {
                           }
                         })
                       }>
+                      {this.props.photo?
+                      <Image source={{ uri: this.props.photo.uri }} style={{width:200,height:150}} />
+                      :null
+                      }
                       <Text style={styles.date}>
                         Take Photo
                         </Text>
@@ -359,5 +364,6 @@ class ExpensePage extends React.PureComponent {
 }
 export default connect(state => ({
   loading: state.loading,
-  effects: state.loading.effects
+  effects: state.loading.effects,
+  photo: state.global.photo
 }))(ExpensePage);

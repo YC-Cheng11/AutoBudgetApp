@@ -20,6 +20,7 @@ import Constants from 'expo-constants';
 import { Context } from '../../utils/Context';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 // import { FontAwesome } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
@@ -353,24 +354,28 @@ class IncomePage extends React.PureComponent {
                   </TouchableOpacity>
                   <View>
                     <Text style={styles.notes}>Category</Text>
-                    <Picker
-                      selectedValue={this.state.category}
+                    <DropDownPicker
+                      defaultValue={this.state.category}
+                      min={0}
+                      max={10}
+                      items={[
+                        { label: 'Please select', value: '' },
+                        { label: 'Allowance', value: 'allowance' },
+                        { label: 'Salary', value: 'salary' },
+                        { label: 'Petty Cash', value: 'pettyCash' },
+                        { label: 'Bonus', value: 'bonus' },
+                        { label: 'Other', value: 'other' },
+                      ]}
                       // style={{ height: 50, width: 100 }}
-                      onValueChange={(itemValue, itemIndex) => this.setState({ category: itemValue })}>
-                      {/* <Picker.Item label="Food" value="food" />
-                      <Picker.Item label="Household" value="household" />
-                      <Picker.Item label="Transportation" value="transportation" />
-                      <Picker.Item label="Social Life" value="socialLife" />
-                      <Picker.Item label="Beauty" value="beauty" /> */}
-                      {/* income category */}
-                      <Picker.Item label="Please select" value="" />
+                      onChangeItem={itemValue => this.setState({ category: itemValue })}>
+                      {/* <Picker.Item label="Please select" value="" />
                       <Picker.Item label="Allowance" value="allowance" />
                       <Picker.Item label="Salary" value="salary" />
                       <Picker.Item label="Petty Cash" value="pettyCash" />
                       <Picker.Item label="Bonus" value="bonus" />
-                      <Picker.Item label="Other" value="other" />
-                    </Picker>
-                  </View><br />
+                      <Picker.Item label="Other" value="other" /> */}
+                    </DropDownPicker>
+                  </View>
                   <View>
                     <Text style={styles.notes}>Item</Text>
                     <TextInput
@@ -385,7 +390,7 @@ class IncomePage extends React.PureComponent {
                       value={this.state.item}
                       placeholder="Item"
                     />
-                  </View><br />
+                  </View>
                   <View>
                     <Text style={styles.notes}>Amount</Text>
                     <TextInput
@@ -399,7 +404,7 @@ class IncomePage extends React.PureComponent {
                       placeholder="Amount"
                       keyboardType="decimal-pad"
                     />
-                  </View><br />
+                  </View>
                   {/* <View style={styles.notesContent} /> */}
                   <View>
                     <Text style={styles.notes}>Notes</Text>

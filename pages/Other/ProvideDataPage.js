@@ -343,7 +343,7 @@ class ProvideDataPage extends React.PureComponent {
                       <Picker.Item label="Bonus" value="bonus" />
                       <Picker.Item label="Other" value="other" /> */}
                     </Picker>
-                  </View><br />
+                  </View>
                   <View>
                     <Text style={styles.notes}>Item</Text>
                     <TextInput
@@ -358,7 +358,7 @@ class ProvideDataPage extends React.PureComponent {
                       value={this.state.item}
                       placeholder="Item"
                     />
-                  </View><br />
+                  </View>
                   <View>
                     <Text style={styles.notes}>Amount</Text>
                     <TextInput
@@ -372,7 +372,7 @@ class ProvideDataPage extends React.PureComponent {
                       placeholder="Amount"
                       keyboardType="decimal-pad"
                     />
-                  </View><br />
+                  </View>
                   {/* <View style={styles.notesContent} /> */}
                   <View>
                     <Text style={styles.notes}>Notes</Text>

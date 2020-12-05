@@ -350,11 +350,10 @@ class ExpensePage extends React.PureComponent {
                       style={{ color: "#fff", fontSize: 40 }}
                     />
                   </TouchableOpacity>
-                  <View>
+                  {/* <View>
                     <Text style={styles.notes}>Category</Text>
                     <Picker
                       selectedValue={this.state.category}
-                      // style={{ height: 50, width: 100 }}
                       onValueChange={(itemValue, itemIndex) => this.setState({ category: itemValue })}>
                       <Picker.Item label="Please select" value="" />
                       <Picker.Item label="Food" value="food" />
@@ -362,14 +361,8 @@ class ExpensePage extends React.PureComponent {
                       <Picker.Item label="Transportation" value="transportation" />
                       <Picker.Item label="Social Life" value="socialLife" />
                       <Picker.Item label="Beauty" value="beauty" />
-                      {/* income category */}
-                      {/* <Picker.Item label="Allowance" value="allowance" />
-                      <Picker.Item label="Salary" value="salary" />
-                      <Picker.Item label="Petty Cash" value="pettyCash" />
-                      <Picker.Item label="Bonus" value="bonus" />
-                      <Picker.Item label="Other" value="other" /> */}
                     </Picker>
-                  </View><br />
+                  </View> */}
                   <View>
                     <Text style={styles.notes}>Item</Text>
                     <TextInput
@@ -384,7 +377,7 @@ class ExpensePage extends React.PureComponent {
                       value={this.state.item}
                       placeholder="Item"
                     />
-                  </View><br />
+                  </View>
                   <View>
                     <Text style={styles.notes}>Amount</Text>
                     <TextInput
@@ -398,8 +391,7 @@ class ExpensePage extends React.PureComponent {
                       placeholder="Amount"
                       keyboardType="decimal-pad"
                     />
-                  </View><br />
-                  {/* <View style={styles.notesContent} /> */}
+                  </View>
                   <View>
                     <Text style={styles.notes}>Notes</Text>
                     <TextInput

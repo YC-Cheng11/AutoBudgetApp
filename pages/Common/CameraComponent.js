@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Platform,
+  Image
 } from 'react-native';
 import dva, { connect } from 'dva';
 import { Camera } from 'expo-camera';
@@ -11,6 +12,7 @@ class CameraComponent extends React.PureComponent {
   state = {
     hasPermission: null,
     cameraType: Camera.Constants.Type.back,
+    
   }
 
   componentDidMount() {
@@ -49,11 +51,11 @@ class CameraComponent extends React.PureComponent {
     })
   }
 
-  takePicture = async () => {
-    if (this.camera) {
-      let photo = await this.camera.current.takePictureAsync();
-    }
-  }
+  // takePicture = async () => {
+  //   if (this.camera) {
+  //     let photo = await this.camera.current.takePictureAsync();
+  //   }
+  // }
 
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -61,6 +63,20 @@ class CameraComponent extends React.PureComponent {
     });
   }
   // Local path to file on the device
+
+  setPicture = (photo) => {
+    this.props.dispatch({ 
+      type: 'global/update',
+      payload:{photo}
+    })
+    this.props.navigation.navigate('Expense', {
+      params: {
+        // currentDate,
+        // updateCurrentTask: this._updateCurrentTask
+      }
+    })
+  };
+
   render() {
     const { dispatch, effects } = this.props;
     const { hasPermission } = this.state;
@@ -128,7 +144,7 @@ class CameraComponent extends React.PureComponent {
       //   </TouchableOpacity>
       // </>
       <>
-        <CameraFunction />
+        <CameraFunction setPicture={this.setPicture} />
       </>
     )
   }

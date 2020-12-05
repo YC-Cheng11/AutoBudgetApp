@@ -3,9 +3,18 @@ import { Router, Route, Switch, routerRedux } from 'dva/router';
 export default {
   namespace: 'global',
   state: {
-    userModel: "testing user model data"
+    userModel: "testing user model data",
+    photo: null
   },
-  reducers: {},
+  reducers: {
+    update(state, { payload }) {
+      console.log("update photo",payload)
+      return {
+        ...state,
+        ...payload,
+      };
+    }
+  },
   effects: {
     * enterHomePage(action, { put, call }) {
       yield call(delay, 1000);

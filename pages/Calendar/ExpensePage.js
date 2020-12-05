@@ -14,7 +14,7 @@ import Constants from 'expo-constants';
 import { Context } from '../../utils/Context';
 import moment from 'moment';
 import uuid from 'uuid';
-import CameraComponent from '../Common/CameraComponent';
+import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 const styles = StyleSheet.create({
   createTaskButton: {
     width: 252,
@@ -144,7 +144,6 @@ class ExpensePage extends React.PureComponent {
     timeType: '',
     creatTodo: {},
     createEventAsyncRes: '',
-    showCamera: true
   }
 
 
@@ -218,23 +217,45 @@ class ExpensePage extends React.PureComponent {
   //https://reactnativemaster.com/react-native-camera-expo-example
   // Local path to file on the device
   render() {
+    const { navigation } = this.props;
     return (
-      this.state.showCamera ?
-        <CameraComponent /> :
-        <Context.Consumer>
-          {value => (
-            <>
-              <View style={styles.container}>
-                <ScrollView
-                  contentContainerStyle={{
-                    paddingBottom: 100,
-                  }}
-                >
-                  <View style={styles.taskContainer}>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={styles.date}>Date: {this.props.route.params.currentDate}</Text>
-                    </View>
-                    {/* <View>
+      <Context.Consumer>
+        {value => (
+          <>
+            <View style={styles.container}>
+              <ScrollView
+                contentContainerStyle={{
+                  paddingBottom: 100,
+                }}
+              >
+                <View style={styles.taskContainer}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.date}>Date: {this.props.route.params.currentDate}</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity
+                      style={{
+                        alignSelf: 'flex-end',
+                        alignItems: 'center',
+                      }}
+                      onPress={() =>
+                        navigation.navigate('camera', {
+                          params: {
+                            // currentDate,
+                            // updateCurrentTask: this._updateCurrentTask
+                          }
+                        })
+                      }>
+                      <Text style={styles.date}>
+                        Take Photo
+                        </Text>
+                      <Ionicons
+                        name="ios-photos"
+                        style={{ color: "#fff", fontSize: 40 }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  {/* <View>
                     <Text style={styles.notes}>Category</Text>
                     <Picker
                       selectedValue={this.state.category}
@@ -247,83 +268,83 @@ class ExpensePage extends React.PureComponent {
                       <Picker.Item label="Beauty" value="beauty" />
                     </Picker>
                   </View> */}
-                    <View>
-                      <Text style={styles.notes}>Item</Text>
-                      <TextInput
-                        style={{
-                          height: 20,
-                          fontSize: 19,
-                          marginTop: 3,
-                        }}
-                        onChangeText={text =>
-                          this.setState({ item: text })
-                        }
-                        value={this.state.item}
-                        placeholder="Item"
-                      />
-                    </View>
-                    <View>
-                      <Text style={styles.notes}>Amount</Text>
-                      <TextInput
-                        style={{
-                          height: 25,
-                          fontSize: 19,
-                          marginTop: 3,
-                        }}
-                        onChangeText={amount => this.setState({ amount: amount.replace(/[^0-9.]/g, '') })}
-                        value={this.state.amount}
-                        placeholder="Amount"
-                        keyboardType="decimal-pad"
-                      />
-                    </View>
-                    <View>
-                      <Text style={styles.notes}>Notes</Text>
-                      <TextInput
-                        style={{
-                          height: Math.max(35, this.state.inputHeight),
-                          fontSize: 19,
-                          marginTop: 3,
-                        }}
-                        onContentSizeChange={(event) => this._handleSizeChange(event)}
-                        onChangeText={text =>
-                          this.setState({ notesText: text })
-                        }
-                        multiline={true}
-                        value={this.state.notesText}
-                        placeholder="Description"
-                      />
-                    </View>
+                  <View>
+                    <Text style={styles.notes}>Item</Text>
+                    <TextInput
+                      style={{
+                        height: 20,
+                        fontSize: 19,
+                        marginTop: 3,
+                      }}
+                      onChangeText={text =>
+                        this.setState({ item: text })
+                      }
+                      value={this.state.item}
+                      placeholder="Item"
+                    />
                   </View>
-                  <TouchableOpacity
-                    disabled={this.state.amount === '' || this.state.item === '' || this.state.category === ''}
-                    style={[
-                      styles.createTaskButton,
-                      {
-                        backgroundColor:
-                          this.state.amount === '' || this.state.item === '' || this.state.category === ''
-                            ? 'rgba(46, 102, 231,0.5)'
-                            : '#2E66E7',
-                      },
-                    ]}
-                    onPress={async () => {
-                      this._handleCreateEventData(value);
+                  <View>
+                    <Text style={styles.notes}>Amount</Text>
+                    <TextInput
+                      style={{
+                        height: 25,
+                        fontSize: 19,
+                        marginTop: 3,
+                      }}
+                      onChangeText={amount => this.setState({ amount: amount.replace(/[^0-9.]/g, '') })}
+                      value={this.state.amount}
+                      placeholder="Amount"
+                      keyboardType="decimal-pad"
+                    />
+                  </View>
+                  <View>
+                    <Text style={styles.notes}>Notes</Text>
+                    <TextInput
+                      style={{
+                        height: Math.max(35, this.state.inputHeight),
+                        fontSize: 19,
+                        marginTop: 3,
+                      }}
+                      onContentSizeChange={(event) => this._handleSizeChange(event)}
+                      onChangeText={text =>
+                        this.setState({ notesText: text })
+                      }
+                      multiline={true}
+                      value={this.state.notesText}
+                      placeholder="Description"
+                    />
+                  </View>
+                </View>
+                <TouchableOpacity
+                  disabled={this.state.amount === '' || this.state.item === '' || this.state.category === ''}
+                  style={[
+                    styles.createTaskButton,
+                    {
+                      backgroundColor:
+                        this.state.amount === '' || this.state.item === '' || this.state.category === ''
+                          ? 'rgba(46, 102, 231,0.5)'
+                          : '#2E66E7',
+                    },
+                  ]}
+                  onPress={async () => {
+                    this._handleCreateEventData(value);
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      textAlign: 'center',
+                      color: '#fff',
                     }}
                   >
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        textAlign: 'center',
-                        color: '#fff',
-                      }}
-                    >
-                      ADD YOUR EXPENSE
+                    ADD YOUR EXPENSE
                 </Text>
-                  </TouchableOpacity>
-                </ScrollView>
-              </View>
-            </>
-          )}
-        </Context.Consumer>
+                </TouchableOpacity>
+              </ScrollView>
+            </View>
+          </>
+        )}
+      </Context.Consumer>
     )
   }
 }

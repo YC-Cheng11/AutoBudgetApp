@@ -1,30 +1,16 @@
 import React from 'react';
 import {
-  Text,
-  Image,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-  Dimensions,
-  ScrollView,
-  TextInput,
-  Keyboard,
-  Switch,
-  StyleSheet,
-  Alert,
   Platform,
-  Picker
 } from 'react-native';
 import dva, { connect } from 'dva';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
-import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import CameraFunction from './CameraFunction';
 class CameraComponent extends React.PureComponent {
   state = {
     hasPermission: null,
     cameraType: Camera.Constants.Type.back,
-    showCamera: false
   }
 
   componentDidMount() {
@@ -79,67 +65,70 @@ class CameraComponent extends React.PureComponent {
     const { dispatch, effects } = this.props;
     const { hasPermission } = this.state;
     return (
+      // <>
+      //   {hasPermission === null ? <View /> : (
+      //     hasPermission === false ? <Text>No access to camera</Text> :
+      //       <View style={{ flex: 1 }}>
+      //         <Camera style={{ flex: 1 }} type={this.state.cameraType}
+      //           ref={ref => {
+      //             this.camera = ref;
+      //           }}>
+      //           <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", margin: 20 }}>
+      //             <TouchableOpacity
+      //               style={{
+      //                 alignSelf: 'flex-end',
+      //                 alignItems: 'center',
+      //                 backgroundColor: 'transparent',
+      //               }}>
+      //               <Ionicons
+      //                 name="ios-photos"
+      //                 style={{ color: "#fff", fontSize: 40 }}
+      //               />
+      //             </TouchableOpacity>
+      //             <TouchableOpacity
+      //               style={{
+      //                 alignSelf: 'flex-end',
+      //                 alignItems: 'center',
+      //                 backgroundColor: 'transparent',
+      //               }}
+      //               onPress={() => this.takePicture()}>
+      //               <FontAwesome
+      //                 name="camera"
+      //                 style={{ color: "#fff", fontSize: 40 }}
+      //               />
+      //             </TouchableOpacity>
+      //             <TouchableOpacity
+      //               style={{
+      //                 alignSelf: 'flex-end',
+      //                 alignItems: 'center',
+      //                 backgroundColor: 'transparent',
+      //               }}
+      //               onPress={() => this.handleCameraType()}>
+      //               <MaterialCommunityIcons
+      //                 name="camera-party-mode"
+      //                 style={{ color: "#fff", fontSize: 40 }}
+      //               />
+      //             </TouchableOpacity>
+      //           </View>
+      //         </Camera>
+      //       </View>
+      //   )}
+      //   <TouchableOpacity
+      //     style={{
+      //       alignSelf: 'flex-end',
+      //       alignItems: 'center',
+      //       backgroundColor: 'transparent',
+      //     }}
+      //     onPress={() => this.handleCameraType()}
+      //   >
+      //     <MaterialCommunityIcons
+      //       name="camera-party-mode"
+      //       style={{ color: "#fff", fontSize: 40 }}
+      //     />
+      //   </TouchableOpacity>
+      // </>
       <>
-        {hasPermission === null ? <View /> : (
-          hasPermission === false ? <Text>No access to camera</Text> :
-            <View style={{ flex: 1 }}>
-              <Camera style={{ flex: 1 }} type={this.state.cameraType}
-                ref={ref => {
-                  this.camera = ref;
-                }}>
-                <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", margin: 20 }}>
-                  <TouchableOpacity
-                    style={{
-                      alignSelf: 'flex-end',
-                      alignItems: 'center',
-                      backgroundColor: 'transparent',
-                    }}>
-                    <Ionicons
-                      name="ios-photos"
-                      style={{ color: "#fff", fontSize: 40 }}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      alignSelf: 'flex-end',
-                      alignItems: 'center',
-                      backgroundColor: 'transparent',
-                    }}
-                    onPress={() => this.takePicture()}>
-                    <FontAwesome
-                      name="camera"
-                      style={{ color: "#fff", fontSize: 40 }}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      alignSelf: 'flex-end',
-                      alignItems: 'center',
-                      backgroundColor: 'transparent',
-                    }}
-                    onPress={() => this.handleCameraType()}>
-                    <MaterialCommunityIcons
-                      name="camera-party-mode"
-                      style={{ color: "#fff", fontSize: 40 }}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </Camera>
-            </View>
-        )}
-        <TouchableOpacity
-          style={{
-            alignSelf: 'flex-end',
-            alignItems: 'center',
-            backgroundColor: 'transparent',
-          }}
-          onPress={() => this.handleCameraType()}
-        >
-          <MaterialCommunityIcons
-            name="camera-party-mode"
-            style={{ color: "#fff", fontSize: 40 }}
-          />
-        </TouchableOpacity>
+        <CameraFunction />
       </>
     )
   }

@@ -15,6 +15,7 @@ import CreateTask from './Calendar/CreateTaskPage';
 import TodoStore from './data/TodoStore';
 import MonthlyExpense from './RecordList/MonthlyExpense';
 import DailyExpense from './RecordList/DailyExpense';
+import CameraComponent from './Common/CameraComponent';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -53,7 +54,9 @@ class MainPage extends React.PureComponent {
           name="Other"
           component={ProvideDataPage}
           options={{ title: 'Other' }} />
+
         <Stack.Screen name="createTask" component={CreateTask} />
+        <Stack.Screen name="camera" component={CameraComponent} />
         <Stack.Screen name="dailyExpense" component={DailyExpense} />
         <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>
@@ -91,6 +94,7 @@ class MainPage extends React.PureComponent {
           component={ProvideDataPage}
           options={{ title: 'Other' }} />
         <Stack.Screen name="createTask" component={CreateTask} />
+        <Stack.Screen name="camera" component={CameraComponent} />
         <Stack.Screen name="dailyExpense" component={DailyExpense} />
         <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>
@@ -127,6 +131,7 @@ class MainPage extends React.PureComponent {
           component={ProvideDataPage}
           options={{ title: 'Other' }} />
         <Stack.Screen name="createTask" component={CreateTask} />
+        <Stack.Screen name="camera" component={CameraComponent} />
         <Stack.Screen name="dailyExpense" component={DailyExpense} />
         <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>
@@ -163,6 +168,7 @@ class MainPage extends React.PureComponent {
           component={ProvideDataPage}
           options={{ title: 'Other' }} />
         <Stack.Screen name="createTask" component={CreateTask} />
+        <Stack.Screen name="camera" component={CameraComponent} />
         <Stack.Screen name="dailyExpense" component={DailyExpense} />
         <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>
@@ -198,6 +204,7 @@ class MainPage extends React.PureComponent {
           component={ProvideDataPage}
           options={{ title: 'Other' }} />
         <Stack.Screen name="createTask" component={CreateTask} />
+        <Stack.Screen name="camera" component={CameraComponent} />
         <Stack.Screen name="dailyExpense" component={DailyExpense} />
         <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>

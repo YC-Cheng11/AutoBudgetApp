@@ -139,54 +139,53 @@ class CalendarPage extends React.PureComponent {
     const { navigation } = this.props;
     return (
       <Fragment>
-        <Fragment>
-          <Calendar
-            current={new Date()}
-            // hideExtraDays
-            onDayPress={this.onDayPress}
-            markedDates={{
-              [selected]: {
-                selected: true,
-                disableTouchEvent: true,
-                selectedColor: 'orange',
-                selectedTextColor: 'white',
-              },
-            }}
-            theme={{
-              backgroundColor: 'grey',
-              calendarBackground: '#ffffff',
-              textSectionTitleColor: '#b6c1cd',
-              textSectionTitleDisabledColor: '#d9e1e8',
-              selectedDayBackgroundColor: '#00adf5',
-              selectedDayTextColor: '#ffffff',
-              todayTextColor: '#00adf5',
-              dayTextColor: '#2d4150',
-              textDisabledColor: '#d9e1e8',
-              dotColor: '#00adf5',
-              selectedDotColor: '#ffffff',
-              arrowColor: 'orange',
+        <Calendar
+          current={new Date()}
+          // hideExtraDays
+          onDayPress={this.onDayPress}
+          markedDates={{
+            [selected]: {
+              selected: true,
+              disableTouchEvent: true,
+              selectedColor: 'orange',
+              selectedTextColor: 'white',
+            },
+          }}
+          theme={{
+            backgroundColor: 'grey',
+            calendarBackground: '#ffffff',
+            textSectionTitleColor: '#b6c1cd',
+            textSectionTitleDisabledColor: '#d9e1e8',
+            selectedDayBackgroundColor: '#00adf5',
+            selectedDayTextColor: '#ffffff',
+            todayTextColor: '#00adf5',
+            dayTextColor: '#2d4150',
+            textDisabledColor: '#d9e1e8',
+            dotColor: '#00adf5',
+            selectedDotColor: '#ffffff',
+            arrowColor: 'orange',
+          }}
+        />
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('createTask', {
+              screen: 'Expense',
+              params: {
+                currentDate,
+                updateCurrentTask: this._updateCurrentTask
+              }
+            })
+          }
+          style={styles.viewTask}
+        >
+          <Image
+            source={require('../../assets/plus.png')}
+            style={{
+              height: 30,
+              width: 30,
             }}
           />
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('createTask', {
-                screen: 'Expense',
-                params: {
-                  currentDate,
-                  updateCurrentTask: this._updateCurrentTask
-                }
-              })
-            }
-            style={styles.viewTask}
-          >
-            <Image
-              source={require('../../assets/plus.png')}
-              style={{
-                height: 30,
-                width: 30,
-              }}
-            />
-          </TouchableOpacity></Fragment>
+        </TouchableOpacity>
         <RecordPage todoList={todoList} monthlyList={monthlyList} currentDate={currentDate} />
       </Fragment>
 

@@ -10,7 +10,7 @@ import {
   Keyboard,
   StyleSheet,
 } from 'react-native';
-import { Select, Option } from 'react-native-select-lists';
+// import { Select, Option } from 'react-native-select-lists';
 import Constants from 'expo-constants';
 import { Context } from '../../utils/Context';
 import moment from 'moment';
@@ -268,14 +268,14 @@ class ExpensePage extends React.PureComponent {
                       <Picker.Item label="Social Life" value="socialLife" />
                       <Picker.Item label="Beauty" value="beauty" />
                     </Picker> */}
-                    <Select>
+                    {/* <Select>
                       <Option value={""}>Please select</Option>
                       <Option value={"food"}>Food</Option>
                       <Option value={"household"}>Household</Option>
                       <Option value={"transportation"}>Transportation</Option>
                       <Option value={"socialLife"}>Social Life</Option>
                       <Option value={"beauty"}>Beauty</Option>
-                    </Select>
+                    </Select> */}
                   </View>
                   <View>
                     <Text style={styles.notes}>Item</Text>

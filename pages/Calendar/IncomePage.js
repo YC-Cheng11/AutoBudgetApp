@@ -253,8 +253,8 @@ class IncomePage extends React.PureComponent {
                       <Text style={styles.date}>
                         Take Photo
                         </Text>
-                      <Ionicons
-                        name="ios-photos"
+                      <FontAwesome
+                        name="camera"
                         style={{ color: "#fff", fontSize: 40 }}
                       />
                     </TouchableOpacity>

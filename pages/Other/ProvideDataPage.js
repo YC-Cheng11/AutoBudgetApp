@@ -265,28 +265,30 @@ class ProvideDataPage extends React.PureComponent {
               >
                 <View style={styles.taskContainer}>
                   <Text>Thanks for provide data.</Text>
-                  <TouchableOpacity
-                    style={{
-                      alignSelf: 'flex-end',
-                      alignItems: 'center',
-                    }}
-                    onPress={() =>
-                      navigation.navigate('camera', {
-                        returnPage: "Other"
-                      })
-                    }>
-                    {this.props.photo ?
-                      <Image source={{ uri: this.props.photo.uri }} style={{ width: 200, height: 150 }} />
-                      : null
-                    }
-                    <Text style={styles.date}>
-                      Take Photo
+                  <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity
+                      style={{
+                        alignSelf: 'flex-end',
+                        alignItems: 'center',
+                      }}
+                      onPress={() =>
+                        navigation.navigate('camera', {
+                          returnPage: "Other"
+                        })
+                      }>
+                      {this.props.photo ?
+                        <Image source={{ uri: this.props.photo.uri }} style={{ width: 200, height: 150 }} />
+                        : null
+                      }
+                      <Text style={styles.date}>
+                        Take Photo
                         </Text>
-                    <FontAwesome
-                      name="camera"
-                      style={{ color: "#fff", fontSize: 40 }}
-                    />
-                  </TouchableOpacity>
+                      <FontAwesome
+                        name="camera"
+                        style={{ color: "#fff", fontSize: 40 }}
+                      />
+                    </TouchableOpacity>
+                  </View>
                   <View>
                     <Text style={styles.notes}>Category</Text>
                     <RNPickerSelect
@@ -376,7 +378,8 @@ class ProvideDataPage extends React.PureComponent {
               </ScrollView>
             </View>
           </>
-        )}
+        )
+        }
       </Context.Consumer>
     )
   }

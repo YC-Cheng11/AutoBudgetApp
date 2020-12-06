@@ -19,12 +19,8 @@ import {
 import Constants from 'expo-constants';
 import { Context } from '../../utils/Context';
 import { Camera } from 'expo-camera';
-import * as ImagePicker from 'expo-image-picker';
 import RNPickerSelect from 'react-native-picker-select';
-import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-// import { FontAwesome } from '@expo/vector-icons';
-import * as Permissions from 'expo-permissions';
-// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { FontAwesome } from '@expo/vector-icons';
 import moment from 'moment';
 import uuid from 'uuid';
 
@@ -157,38 +153,12 @@ class ProvideDataPage extends React.PureComponent {
     timeType: '',
     creatTodo: {},
     createEventAsyncRes: '',
-    hasPermission: null,
-    cameraType: Camera.Constants.Type.back,
-  }
-
-  async componentDidMount() {
-    this.getPermissionAsync()
-  }
-  getPermissionAsync = async () => {
-    // Camera roll Permission 
-    if (Platform.OS === 'ios') {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
-      }
-    }
-    // Camera Permission
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasPermission: status === 'granted' });
   }
 
   componentWillUnmount() {
     Keyboard.removeListener('keyboardDidShow', this._keyboardDidShow);
     Keyboard.removeListener('keyboardDidHide', this._keyboardDidHide);
   }
-
-  useEffect = () => {
-    (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }
-
 
   _keyboardDidShow = e => {
     this.setState({
@@ -218,30 +188,6 @@ class ProvideDataPage extends React.PureComponent {
     };
     await value.updateItem(createItem);
   };
-
-  handleCameraType = () => {
-    const { cameraType } = this.state
-
-    this.setState({
-      cameraType:
-        cameraType === Camera.Constants.Type.back
-          ? Camera.Constants.Type.front
-          : Camera.Constants.Type.back
-    })
-  }
-
-  takePicture = async () => {
-    if (this.camera) {
-      let photo = await this.camera.current.takePictureAsync();
-    }
-  }
-
-  pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    });
-  }
-
   _handleSizeChange = event => {
     console.log('_handleSizeChange ---->', event.nativeEvent.contentSize.height);
 

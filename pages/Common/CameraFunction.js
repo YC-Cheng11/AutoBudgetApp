@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLinkProps } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function App(props) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -28,13 +29,31 @@ export default function App(props) {
     }
   };
 
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    });
+    props.setPicture(result);
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <Camera style={{ flex: 1 }} type={type} ref={ref => {
         this.camera = ref;
       }}>
         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", margin: 20 }}>
-
+          <TouchableOpacity
+            style={{
+              alignSelf: 'flex-end',
+              alignItems: 'center',
+              backgroundColor: 'transparent',
+            }}
+            onPress={this.pickImage}>
+            <Ionicons
+              name="ios-photos"
+              style={{ color: "#fff", fontSize: 40 }}
+            />
+          </TouchableOpacity>
           <TouchableOpacity style={{
             alignSelf: 'flex-end',
             alignItems: 'center',
@@ -63,66 +82,6 @@ export default function App(props) {
               style={{ color: "#fff", fontSize: 40 }}
             />
           </TouchableOpacity>
-          {/* {hasPermission === null ? <View /> : (
-                    hasPermission === false ? <Text>No access to camera</Text> :
-                      <View style={{ flex: 1 }}>
-                        <Camera style={{ flex: 1 }} type={this.state.cameraType}
-                          ref={ref => {
-                            this.camera = ref;
-                          }}>
-                          <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", margin: 20 }}>
-                            <TouchableOpacity
-                              style={{
-                                alignSelf: 'flex-end',
-                                alignItems: 'center',
-                                backgroundColor: 'transparent',
-                              }}>
-                              <Ionicons
-                                name="ios-photos"
-                                style={{ color: "#fff", fontSize: 40 }}
-                              />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                              style={{
-                                alignSelf: 'flex-end',
-                                alignItems: 'center',
-                                backgroundColor: 'transparent',
-                              }}
-                              onPress={() => this.takePicture()}>
-                              <FontAwesome
-                                name="camera"
-                                style={{ color: "#fff", fontSize: 40 }}
-                              />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                              style={{
-                                alignSelf: 'flex-end',
-                                alignItems: 'center',
-                                backgroundColor: 'transparent',
-                              }}
-                              onPress={() => this.handleCameraType()}>
-                              <MaterialCommunityIcons
-                                name="camera-party-mode"
-                                style={{ color: "#fff", fontSize: 40 }}
-                              />
-                            </TouchableOpacity>
-                          </View>
-                        </Camera>
-                      </View>
-                  )}
-                  <TouchableOpacity
-                    style={{
-                      alignSelf: 'flex-end',
-                      alignItems: 'center',
-                      backgroundColor: 'transparent',
-                    }}
-                    onPress={() => this.handleCameraType()}
-                  >
-                    <MaterialCommunityIcons
-                      name="camera-party-mode"
-                      style={{ color: "#fff", fontSize: 40 }}
-                    />
-                  </TouchableOpacity> */}
         </View>
       </Camera>
     </View>

@@ -4,11 +4,20 @@ export default {
   namespace: 'global',
   state: {
     userModel: "testing user model data",
-    photo: null
+    expensePhoto: null,
+    incomePhoto: null,
+    otherPhoto: null
   },
   reducers: {
-    update(state, { payload }) {
-      console.log("update photo",payload)
+    updatePhoto(state, { payload }) {
+      console.log("update photo", payload)
+      if (payload.returnPage == "Income") {
+        state.incomePhoto = payload.photo;
+      } else if (payload.returnPage == "Expense") {
+        state.expensePhoto = payload.photo;
+      } else if (payload.returnPage == "Other") {
+        state.otherPhoto = payload.photo;
+      }
       return {
         ...state,
         ...payload,

@@ -57,8 +57,6 @@ class MainPage extends React.PureComponent {
 
         <Stack.Screen name="createTask" component={CreateTask} />
         <Stack.Screen name="camera" component={CameraComponent} />
-        <Stack.Screen name="dailyExpense" component={DailyExpense} />
-        <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>
 
     );
@@ -95,8 +93,6 @@ class MainPage extends React.PureComponent {
           options={{ title: 'Other' }} />
         <Stack.Screen name="createTask" component={CreateTask} />
         <Stack.Screen name="camera" component={CameraComponent} />
-        <Stack.Screen name="dailyExpense" component={DailyExpense} />
-        <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>
 
     );
@@ -132,8 +128,6 @@ class MainPage extends React.PureComponent {
           options={{ title: 'Other' }} />
         <Stack.Screen name="createTask" component={CreateTask} />
         <Stack.Screen name="camera" component={CameraComponent} />
-        <Stack.Screen name="dailyExpense" component={DailyExpense} />
-        <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>
     );
   }
@@ -169,8 +163,6 @@ class MainPage extends React.PureComponent {
           options={{ title: 'Other' }} />
         <Stack.Screen name="createTask" component={CreateTask} />
         <Stack.Screen name="camera" component={CameraComponent} />
-        <Stack.Screen name="dailyExpense" component={DailyExpense} />
-        <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>
     );
   }
@@ -205,8 +197,6 @@ class MainPage extends React.PureComponent {
           options={{ title: 'Other' }} />
         <Stack.Screen name="createTask" component={CreateTask} />
         <Stack.Screen name="camera" component={CameraComponent} />
-        <Stack.Screen name="dailyExpense" component={DailyExpense} />
-        <Stack.Screen name="monthlyExpense" component={MonthlyExpense} />
       </Stack.Navigator>
     );
   }

@@ -243,10 +243,7 @@ class ExpensePage extends React.PureComponent {
                       }}
                       onPress={() =>
                         navigation.navigate('camera', {
-                          params: {
-                            // currentDate,
-                            // updateCurrentTask: this._updateCurrentTask
-                          }
+                          returnPage: "Expense"
                         })
                       }>
                       {this.props.photo ?
@@ -269,27 +266,16 @@ class ExpensePage extends React.PureComponent {
                       items={[
                         { label: 'Household', value: 'household' },
                         { label: 'Food', value: 'food' },
-                        { label: 'Hockey', value: 'hockey' },
+                        { label: 'Transportation', value: 'transportation' },
+                        { label: 'Social Life', value: 'socialLife' },
+                        { label: 'Beauty', value: 'beauty' },
+                        { label: 'Allowance', value: 'allowance' },
+                        { label: 'Salary', value: 'salary' },
+                        { label: 'Petty Cash', value: 'pettyCash' },
+                        { label: 'Bonus', value: 'bonus' },
+                        { label: 'Other', value: 'other' },
                       ]}
                     />
-                    {/* <Picker
-                      selectedValue={this.state.category}
-                      onValueChange={(itemValue, itemIndex) => this.setState({ category: itemValue })}>
-                      <Picker.Item label="Please select" value="" />
-                      <Picker.Item label="Food" value="food" />
-                      <Picker.Item label="Household" value="household" />
-                      <Picker.Item label="Transportation" value="transportation" />
-                      <Picker.Item label="Social Life" value="socialLife" />
-                      <Picker.Item label="Beauty" value="beauty" />
-                    </Picker> */}
-                    {/* <Select>
-                      <Option value={""}>Please select</Option>
-                      <Option value={"food"}>Food</Option>
-                      <Option value={"household"}>Household</Option>
-                      <Option value={"transportation"}>Transportation</Option>
-                      <Option value={"socialLife"}>Social Life</Option>
-                      <Option value={"beauty"}>Beauty</Option>
-                    </Select> */}
                   </View>
                   <View>
                     <Text style={styles.notes}>Item</Text>
@@ -374,5 +360,5 @@ class ExpensePage extends React.PureComponent {
 export default connect(state => ({
   loading: state.loading,
   effects: state.loading.effects,
-  photo: state.global.photo
+  photo: state.global.expensePhoto
 }))(ExpensePage);

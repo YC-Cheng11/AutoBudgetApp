@@ -12,7 +12,7 @@ class CameraComponent extends React.PureComponent {
   state = {
     hasPermission: null,
     cameraType: Camera.Constants.Type.back,
-    
+
   }
 
   componentDidMount() {
@@ -65,84 +65,17 @@ class CameraComponent extends React.PureComponent {
   // Local path to file on the device
 
   setPicture = (photo) => {
-    this.props.dispatch({ 
-      type: 'global/update',
-      payload:{photo}
+    const { route } = this.props;
+    const { returnPage } = route.params;
+    this.props.dispatch({
+      type: 'global/updatePhoto',
+      payload: { photo, returnPage }
     })
-    this.props.navigation.navigate('Expense', {
-      params: {
-        // currentDate,
-        // updateCurrentTask: this._updateCurrentTask
-      }
-    })
+    this.props.navigation.navigate(returnPage);
   };
 
   render() {
-    const { dispatch, effects } = this.props;
-    const { hasPermission } = this.state;
     return (
-      // <>
-      //   {hasPermission === null ? <View /> : (
-      //     hasPermission === false ? <Text>No access to camera</Text> :
-      //       <View style={{ flex: 1 }}>
-      //         <Camera style={{ flex: 1 }} type={this.state.cameraType}
-      //           ref={ref => {
-      //             this.camera = ref;
-      //           }}>
-      //           <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", margin: 20 }}>
-      //             <TouchableOpacity
-      //               style={{
-      //                 alignSelf: 'flex-end',
-      //                 alignItems: 'center',
-      //                 backgroundColor: 'transparent',
-      //               }}>
-      //               <Ionicons
-      //                 name="ios-photos"
-      //                 style={{ color: "#fff", fontSize: 40 }}
-      //               />
-      //             </TouchableOpacity>
-      //             <TouchableOpacity
-      //               style={{
-      //                 alignSelf: 'flex-end',
-      //                 alignItems: 'center',
-      //                 backgroundColor: 'transparent',
-      //               }}
-      //               onPress={() => this.takePicture()}>
-      //               <FontAwesome
-      //                 name="camera"
-      //                 style={{ color: "#fff", fontSize: 40 }}
-      //               />
-      //             </TouchableOpacity>
-      //             <TouchableOpacity
-      //               style={{
-      //                 alignSelf: 'flex-end',
-      //                 alignItems: 'center',
-      //                 backgroundColor: 'transparent',
-      //               }}
-      //               onPress={() => this.handleCameraType()}>
-      //               <MaterialCommunityIcons
-      //                 name="camera-party-mode"
-      //                 style={{ color: "#fff", fontSize: 40 }}
-      //               />
-      //             </TouchableOpacity>
-      //           </View>
-      //         </Camera>
-      //       </View>
-      //   )}
-      //   <TouchableOpacity
-      //     style={{
-      //       alignSelf: 'flex-end',
-      //       alignItems: 'center',
-      //       backgroundColor: 'transparent',
-      //     }}
-      //     onPress={() => this.handleCameraType()}
-      //   >
-      //     <MaterialCommunityIcons
-      //       name="camera-party-mode"
-      //       style={{ color: "#fff", fontSize: 40 }}
-      //     />
-      //   </TouchableOpacity>
-      // </>
       <>
         <CameraFunction setPicture={this.setPicture} />
       </>

@@ -20,6 +20,7 @@ import Constants from 'expo-constants';
 import { Context } from '../../utils/Context';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+import RNPickerSelect from 'react-native-picker-select';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 // import { FontAwesome } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
@@ -251,7 +252,7 @@ class ProvideDataPage extends React.PureComponent {
   //https://reactnativemaster.com/react-native-camera-expo-example
   // Local path to file on the device
   render() {
-    const { hasPermission } = this.state;
+    const { navigation } = this.props;
     return (
       <Context.Consumer>
         {value => (
@@ -264,85 +265,40 @@ class ProvideDataPage extends React.PureComponent {
               >
                 <View style={styles.taskContainer}>
                   <Text>Thanks for provide data.</Text>
-                  {hasPermission === null ? <View /> : (
-                    hasPermission === false ? <Text>No access to camera</Text> :
-                      <View style={{ flex: 1 }}>
-                        <Camera style={{ flex: 1 }} type={this.state.cameraType}
-                          ref={ref => {
-                            this.camera = ref;
-                          }}>
-                          <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", margin: 20 }}>
-                            <TouchableOpacity
-                              style={{
-                                alignSelf: 'flex-end',
-                                alignItems: 'center',
-                                backgroundColor: 'transparent',
-                              }}>
-                              <Ionicons
-                                name="ios-photos"
-                                style={{ color: "#fff", fontSize: 40 }}
-                              />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                              style={{
-                                alignSelf: 'flex-end',
-                                alignItems: 'center',
-                                backgroundColor: 'transparent',
-                              }}
-                              onPress={() => this.takePicture()}>
-                              <FontAwesome
-                                name="camera"
-                                style={{ color: "#fff", fontSize: 40 }}
-                              />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                              style={{
-                                alignSelf: 'flex-end',
-                                alignItems: 'center',
-                                backgroundColor: 'transparent',
-                              }}
-                              onPress={() => this.handleCameraType()}>
-                              <MaterialCommunityIcons
-                                name="camera-party-mode"
-                                style={{ color: "#fff", fontSize: 40 }}
-                              />
-                            </TouchableOpacity>
-                          </View>
-                        </Camera>
-                      </View>
-                  )}
                   <TouchableOpacity
                     style={{
                       alignSelf: 'flex-end',
                       alignItems: 'center',
-                      backgroundColor: 'transparent',
                     }}
-                    onPress={() => this.handleCameraType()}
-                  >
-                    <MaterialCommunityIcons
-                      name="camera-party-mode"
+                    onPress={() =>
+                      navigation.navigate('camera', {
+                        returnPage: "Other"
+                      })
+                    }>
+                    {this.props.photo ?
+                      <Image source={{ uri: this.props.photo.uri }} style={{ width: 200, height: 150 }} />
+                      : null
+                    }
+                    <Text style={styles.date}>
+                      Take Photo
+                        </Text>
+                    <FontAwesome
+                      name="camera"
                       style={{ color: "#fff", fontSize: 40 }}
                     />
                   </TouchableOpacity>
                   <View>
                     <Text style={styles.notes}>Category</Text>
-                    <Picker
-                      selectedValue={this.state.category}
-                      // style={{ height: 50, width: 100 }}
-                      onValueChange={(itemValue, itemIndex) => this.setState({ category: itemValue })}>
-                      <Picker.Item label="Please select" value="" />
-                      <Picker.Item label="Food" value="food" />
-                      <Picker.Item label="Household" value="household" />
-                      <Picker.Item label="Transportation" value="transportation" />
-                      <Picker.Item label="Social Life" value="socialLife" />
-                      <Picker.Item label="Beauty" value="beauty" />
-                      {/* income category */}
-                      {/* <Picker.Item label="Allowance" value="allowance" />
-                      <Picker.Item label="Salary" value="salary" />
-                      <Picker.Item label="Petty Cash" value="pettyCash" />
-                      <Picker.Item label="Bonus" value="bonus" />
-                      <Picker.Item label="Other" value="other" /> */}
-                    </Picker>
+                    <RNPickerSelect
+                      onValueChange={(value) => this.setState({ category: value })}
+                      items={[
+                        { label: 'Household', value: 'household' },
+                        { label: 'Food', value: 'food' },
+                        { label: 'Transportation', value: 'transportation' },
+                        { label: 'Social Life', value: 'socialLife' },
+                        { label: 'Beauty', value: 'beauty' },
+                      ]}
+                    />
                   </View>
                   <View>
                     <Text style={styles.notes}>Item</Text>
@@ -393,12 +349,12 @@ class ProvideDataPage extends React.PureComponent {
                   </View>
                 </View>
                 <TouchableOpacity
-                  disabled={this.state.amount === '' || this.state.item === '' || this.state.category === ''}
+                  disabled={this.state.amount === '' || this.state.item === ''}
                   style={[
                     styles.createTaskButton,
                     {
                       backgroundColor:
-                        this.state.amount === '' || this.state.item === '' || this.state.category === ''
+                        this.state.amount === '' || this.state.item === ''
                           ? 'rgba(46, 102, 231,0.5)'
                           : '#2E66E7',
                     },
@@ -427,5 +383,6 @@ class ProvideDataPage extends React.PureComponent {
 }
 export default connect(state => ({
   loading: state.loading,
-  effects: state.loading.effects
+  effects: state.loading.effects,
+  photo: state.global.otherPhoto
 }))(ProvideDataPage);

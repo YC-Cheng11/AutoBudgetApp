@@ -2,32 +2,22 @@ import React, { useState, useEffect, Component } from 'react';
 import dva, { connect } from 'dva';
 import {
   Text,
-  Image,
   View,
-  SafeAreaView,
   TouchableOpacity,
   Dimensions,
   ScrollView,
   TextInput,
   Keyboard,
-  Switch,
   StyleSheet,
-  Alert,
-  Platform,
-  Picker
+  Image
 } from 'react-native';
+// import { Select, Option } from 'react-native-select-lists';
+import RNPickerSelect from 'react-native-picker-select';
 import Constants from 'expo-constants';
 import { Context } from '../../utils/Context';
-import { Camera } from 'expo-camera';
-import * as ImagePicker from 'expo-image-picker';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-// import { FontAwesome } from '@expo/vector-icons';
-import * as Permissions from 'expo-permissions';
-// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import moment from 'moment';
 import uuid from 'uuid';
-
+import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 const styles = StyleSheet.create({
   createTaskButton: {
     width: 252,
@@ -93,7 +83,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
   },
   taskContainer: {
-    marginTop: 30,
+    marginTop: 5,
     height: 400,
     width: 327,
     alignSelf: 'center',
@@ -107,7 +97,7 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     shadowOpacity: 0.2,
     elevation: 5,
-    padding: 22,
+    padding: 5,
   },
   calenderContainer: {
     marginTop: 30,
@@ -157,38 +147,13 @@ class IncomePage extends React.PureComponent {
     timeType: '',
     creatTodo: {},
     createEventAsyncRes: '',
-    hasPermission: null,
-    cameraType: Camera.Constants.Type.back,
   }
 
-  async componentDidMount() {
-    this.getPermissionAsync()
-  }
-  getPermissionAsync = async () => {
-    // Camera roll Permission 
-    if (Platform.OS === 'ios') {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
-      }
-    }
-    // Camera Permission
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasPermission: status === 'granted' });
-  }
 
   componentWillUnmount() {
     Keyboard.removeListener('keyboardDidShow', this._keyboardDidShow);
     Keyboard.removeListener('keyboardDidHide', this._keyboardDidHide);
   }
-
-  useEffect = () => {
-    (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }
-
 
   _keyboardDidShow = e => {
     this.setState({
@@ -220,7 +185,7 @@ class IncomePage extends React.PureComponent {
           notes: notesText,
           item: item,
           category: category,
-          type: "Income",
+          type: "Expense",
           color: `rgb(${Math.floor(
             Math.random() * Math.floor(256)
           )},${Math.floor(Math.random() * Math.floor(256))},${Math.floor(
@@ -243,28 +208,7 @@ class IncomePage extends React.PureComponent {
     await updateCurrentTask(currentDate);
     navigation.navigate('Calendar');
   };
-  handleCameraType = () => {
-    const { cameraType } = this.state
 
-    this.setState({
-      cameraType:
-        cameraType === Camera.Constants.Type.back
-          ? Camera.Constants.Type.front
-          : Camera.Constants.Type.back
-    })
-  }
-
-  takePicture = async () => {
-    if (this.camera) {
-      let photo = await this.camera.current.takePictureAsync();
-    }
-  }
-
-  pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    });
-  }
 
   _handleSizeChange = event => {
     console.log('_handleSizeChange ---->', event.nativeEvent.contentSize.height);
@@ -276,8 +220,7 @@ class IncomePage extends React.PureComponent {
   //https://reactnativemaster.com/react-native-camera-expo-example
   // Local path to file on the device
   render() {
-    const { hasPermission } = this.state;
-    console.log(hasPermission);
+    const { navigation } = this.props;
     return (
       <Context.Consumer>
         {value => (
@@ -290,91 +233,44 @@ class IncomePage extends React.PureComponent {
               >
                 <View style={styles.taskContainer}>
                   <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.date}>Date: {value.currentDate}</Text>
+                    <Text style={styles.date}>Date: {this.props.route.params.currentDate}</Text>
                   </View>
-                  {hasPermission === null ? <View /> : (
-                    hasPermission === false ? <Text>No access to camera</Text> :
-                      <View style={{ flex: 1 }}>
-                        <Camera style={{ flex: 1 }} type={this.state.cameraType}
-                          ref={ref => {
-                            this.camera = ref;
-                          }}>
-                          <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", margin: 20 }}>
-                            <TouchableOpacity
-                              style={{
-                                alignSelf: 'flex-end',
-                                alignItems: 'center',
-                                backgroundColor: 'transparent',
-                              }}>
-                              <Ionicons
-                                name="ios-photos"
-                                style={{ color: "#fff", fontSize: 40 }}
-                              />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                              style={{
-                                alignSelf: 'flex-end',
-                                alignItems: 'center',
-                                backgroundColor: 'transparent',
-                              }}
-                              onPress={() => this.takePicture()}>
-                              <FontAwesome
-                                name="camera"
-                                style={{ color: "#fff", fontSize: 40 }}
-                              />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                              style={{
-                                alignSelf: 'flex-end',
-                                alignItems: 'center',
-                                backgroundColor: 'transparent',
-                              }}
-                              onPress={() => this.handleCameraType()}>
-                              <MaterialCommunityIcons
-                                name="camera-party-mode"
-                                style={{ color: "#fff", fontSize: 40 }}
-                              />
-                            </TouchableOpacity>
-                          </View>
-                        </Camera>
-                      </View>
-                  )}
-                  <TouchableOpacity
-                    style={{
-                      alignSelf: 'flex-end',
-                      alignItems: 'center',
-                      backgroundColor: 'transparent',
-                    }}
-                    onPress={() => this.handleCameraType()}
-                  >
-                    <MaterialCommunityIcons
-                      name="camera-party-mode"
-                      style={{ color: "#fff", fontSize: 40 }}
-                    />
-                  </TouchableOpacity>
+                  <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity
+                      style={{
+                        alignSelf: 'flex-end',
+                        alignItems: 'center',
+                      }}
+                      onPress={() =>
+                        navigation.navigate('camera', {
+                          returnPage: "Income"
+                        })
+                      }>
+                      {this.props.photo ?
+                        <Image source={{ uri: this.props.photo.uri }} style={{ width: 200, height: 150 }} />
+                        : null
+                      }
+                      <Text style={styles.date}>
+                        Take Photo
+                        </Text>
+                      <Ionicons
+                        name="ios-photos"
+                        style={{ color: "#fff", fontSize: 40 }}
+                      />
+                    </TouchableOpacity>
+                  </View>
                   <View>
                     <Text style={styles.notes}>Category</Text>
-                    <DropDownPicker
-                      defaultValue={this.state.category}
-                      min={0}
-                      max={10}
+                    <RNPickerSelect
+                      onValueChange={(value) => this.setState({ category: value })}
                       items={[
-                        { label: 'Please select', value: '' },
                         { label: 'Allowance', value: 'allowance' },
                         { label: 'Salary', value: 'salary' },
                         { label: 'Petty Cash', value: 'pettyCash' },
                         { label: 'Bonus', value: 'bonus' },
                         { label: 'Other', value: 'other' },
                       ]}
-                      // style={{ height: 50, width: 100 }}
-                      onChangeItem={itemValue => this.setState({ category: itemValue })}>
-                      {/* <Picker.Item label="Please select" value="" />
-                      <Picker.Item label="Allowance" value="allowance" />
-                      <Picker.Item label="Salary" value="salary" />
-                      <Picker.Item label="Petty Cash" value="pettyCash" />
-                      <Picker.Item label="Bonus" value="bonus" />
-                      <Picker.Item label="Other" value="other" /> */}
-                    </DropDownPicker>
+                    />
                   </View>
                   <View>
                     <Text style={styles.notes}>Item</Text>
@@ -405,7 +301,6 @@ class IncomePage extends React.PureComponent {
                       keyboardType="decimal-pad"
                     />
                   </View>
-                  {/* <View style={styles.notesContent} /> */}
                   <View>
                     <Text style={styles.notes}>Notes</Text>
                     <TextInput
@@ -425,12 +320,12 @@ class IncomePage extends React.PureComponent {
                   </View>
                 </View>
                 <TouchableOpacity
-                  disabled={this.state.amount === '' || this.state.item === '' || this.state.category === ''}
+                  disabled={this.state.amount === '' || this.state.item === ''}// || this.state.category === ''}
                   style={[
                     styles.createTaskButton,
                     {
                       backgroundColor:
-                        this.state.amount === '' || this.state.item === '' || this.state.category === ''
+                        this.state.amount === '' || this.state.item === '' //|| this.state.category === ''
                           ? 'rgba(46, 102, 231,0.5)'
                           : '#2E66E7',
                     },
@@ -459,5 +354,6 @@ class IncomePage extends React.PureComponent {
 }
 export default connect(state => ({
   loading: state.loading,
-  effects: state.loading.effects
+  effects: state.loading.effects,
+  photo: state.global.incomePhoto
 }))(IncomePage);

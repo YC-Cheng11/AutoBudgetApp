@@ -303,10 +303,6 @@ class InputForm extends React.Component {
     const { navigation, page, dispatch } = this.props;
     let photo = this.props.page == "Expense" ? this.props.expensePhoto : (this.props.page == "Income" ? this.props.incomePhoto : this.props.otherPhoto);
     let location = this.props.page == "Expense" ? this.props.expenseLocation : this.props.otherLocation;
-    console.log("locationrender", location);
-    console.log(this.state.item);
-    console.log("this.state.category");
-    console.log(this.state.category);
     return (
       <Context.Consumer>
         {value => (
@@ -485,7 +481,7 @@ class InputForm extends React.Component {
                     color: '#fff',
                   }}
                 >
-                  ADD YOUR EXPENSE
+                  {page == "Expense" ? "ADD YOUR EXPENSE" : page == "Income" ? "ADD YOUR INCOME" : "ADD ITEM"}
                 </Text>
               </TouchableOpacity>
             </ScrollView>

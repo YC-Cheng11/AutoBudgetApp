@@ -27,7 +27,7 @@ import {
 const MyBezierLineChart = () => {
   return (
     <>
-      <Text style={styles.header}>Bezier Line Chart</Text>
+      <Text style={styles.header}>Monthly Expense</Text>
       <LineChart
         data={{
           labels: ['January', 'February', 'March', 'April'],
@@ -46,7 +46,7 @@ const MyBezierLineChart = () => {
         }}
         width={Dimensions.get('window').width - 16} // from react-native
         height={220}
-        yAxisLabel={'Rs'}
+        yAxisLabel={'$'}
         chartConfig={{
           backgroundColor: '#1cc910',
           backgroundGradientFrom: '#eff3ff',
@@ -70,7 +70,7 @@ const MyBezierLineChart = () => {
 const MyLineChart = () => {
   return (
     <>
-      <Text style={styles.header}>Line Chart</Text>
+      <Text style={styles.header}>Expense (Food)</Text>
       <LineChart
         data={{
           labels: ['January', 'February', 'March', 'April', 'May', 'June'],
@@ -169,8 +169,8 @@ const MyStackedBarChart = () => {
       <Text style={styles.header}>Stacked Bar Chart</Text>
       <StackedBarChart
         data={{
-          labels: ['Test1', 'Test2'],
-          legend: ['L1', 'L2', 'L3'],
+          labels: ['November', 'December'],
+          legend: ['Food', 'Transportation', 'Social Life'],
           data: [
             [60, 60, 60],
             [30, 30, 60],
@@ -201,32 +201,32 @@ const MyStackedBarChart = () => {
 const MyPieChart = () => {
   return (
     <>
-      <Text style={styles.header}>Pie Chart</Text>
+      <Text style={styles.header}>Daily Expense</Text>
       <PieChart
         data={[
           {
-            name: 'Seoul',
+            name: 'Food',
             population: 21500000,
             color: 'rgba(131, 167, 234, 1)',
             legendFontColor: '#7F7F7F',
             legendFontSize: 15,
           },
           {
-            name: 'Toronto',
+            name: 'Social Life',
             population: 2800000,
             color: '#F00',
             legendFontColor: '#7F7F7F',
             legendFontSize: 15,
           },
           {
-            name: 'New York',
+            name: 'Transportation',
             population: 8538000,
-            color: '#ffffff',
+            color: 'yellow',
             legendFontColor: '#7F7F7F',
             legendFontSize: 15,
           },
           {
-            name: 'Moscow',
+            name: 'Health',
             population: 11920000,
             color: 'rgb(0, 0, 255)',
             legendFontColor: '#7F7F7F',
@@ -306,7 +306,7 @@ const SummaryPage = () => {
             {/*Example of LineChart*/}
             <MyLineChart />
             {/*Example of Progress Chart*/}
-            <MyProgressChart />
+            {/* <MyProgressChart /> */}
             {/*Example of Bar Chart*/}
             {/* <MyBarChart /> */}
             {/*Example of StackedBar Chart*/}

@@ -151,7 +151,7 @@ export default class TodoStore extends Component {
 
   _updateItem = async item => {
     const isExist = this.state.item.find(data => {
-      if (data.amount === item.amount && data.notesText === item.notesText
+      if (data.amount === item.amount && data.notesText === item.notesText && item.locationAddress === data.locationAddress
         && data.category === item.category && data.item === item.item) {
         return true;
       }

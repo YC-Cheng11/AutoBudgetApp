@@ -2,7 +2,7 @@
 // https://aboutreact.com/react-native-search-bar-filter-on-listview/
 
 // import React in our code
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useFocusEffect } from 'react';
 
 // import all the components we are going to use
 import { SafeAreaView, Text, StyleSheet, View, FlatList } from 'react-native';
@@ -56,12 +56,38 @@ const SearchPage = () => {
   const ItemView = ({ item }) => {
     return (
       // Flat List Item
-      <Text style={styles.itemStyle} onPress={() => getItem(item)}>
-        {item.item}
-        {'.'}
-        {item.notes.toUpperCase()}
-        {"$"}{item.amount}
-      </Text>
+      <>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginLeft: 10,
+          }}
+        >
+          <Text style={styles.itemStyle} onPress={() => getItem(item)}>
+            {item.category} -- {item.item} ({"$"}{item.amount})
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginLeft: 10,
+          }}
+        >
+          <Text style={styles.itemStyle} onPress={() => getItem(item)}>
+            {item.locationAddress ? item.locationAddress.name : ''}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginLeft: 10,
+          }}
+        >
+          <Text style={styles.itemStyle} onPress={() => getItem(item)}>
+            {item.locationAddress ? item.locationAddress.address : ''}
+          </Text>
+        </View>
+      </>
     );
   };
 
@@ -80,7 +106,7 @@ const SearchPage = () => {
 
   const getItem = (item) => {
     // Function for click on an item
-    alert('Item : ' + item.item + ' Description : ' + item.notes);
+    // alert('Item : ' + item.item + ' Description : ' + item.notes);
   };
 
   return (
@@ -110,7 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   itemStyle: {
-    padding: 10,
+    paddingTop: 5
   },
 });
 

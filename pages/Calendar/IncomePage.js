@@ -8,7 +8,6 @@ class IncomePage extends React.PureComponent {
     const { currentDate, updateCurrentTask } = route.params;
     await updateCurrentTask(currentDate);
     navigation.navigate('Calendar');
-    alert("Item saved. Thanks for provide data.");
   };
 
 

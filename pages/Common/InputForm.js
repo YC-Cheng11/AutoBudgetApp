@@ -39,11 +39,11 @@ const styles = StyleSheet.create({
     color: '#DC5112',
     fontSize: 20,
     fontWeight: '600',
-    alignSelf:'center',
+    alignSelf: 'center',
     paddingBottom: 12
   },
   notes: {
-    paddingTop:  10,
+    paddingTop: 10,
     color: '#DC5112',
     fontSize: 18,
     fontWeight: '600',
@@ -132,6 +132,36 @@ const styles = StyleSheet.create({
     backgroundColor: '#eaeef7',
   },
 });
+
+const pickerStyle = {
+  inputIOS: {
+    color: 'black',
+    fontSize: 18,
+    paddingTop: 13,
+    paddingHorizontal: 10,
+    paddingBottom: 12,
+  },
+  inputAndroid: {
+    color: 'black',
+    fontSize: 18,
+  },
+  placeholderColor: 'white',
+  underline: { borderTopWidth: 0 },
+  icon: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    borderTopWidth: 5,
+    borderTopColor: '#00000099',
+    borderRightWidth: 5,
+    borderRightColor: 'transparent',
+    borderLeftWidth: 5,
+    borderLeftColor: 'transparent',
+    width: 0,
+    height: 0,
+    top: 20,
+    right: 15,
+  },
+};
 class InputForm extends React.Component {
   state = {
     selectedDay: {
@@ -193,6 +223,7 @@ class InputForm extends React.Component {
   _handleCreateEventData = async value => {
     const { state: { amount, notesText, item, category } } = this;
     const { currentDate, createEventData, page } = this.props;
+    let photo = this.props.page == "Expense" ? this.props.expensePhoto : (this.props.page == "Income" ? this.props.incomePhoto : this.props.otherPhoto);
     let location = this.props.page == "Expense" ? this.props.expenseLocation : this.props.otherLocation;
     if (page == "Other") {
       const createItem = {
@@ -211,10 +242,10 @@ class InputForm extends React.Component {
         todoList: [
           {
             key: uuid(),
-            amount: amount,
+            amount: photo ? "20" : amount,
             notes: notesText,
-            item: item,
-            category: category,
+            item: photo ? "Cheese wafer roll" : item,
+            category: photo ? "food" : category,
             locationAddress: location,
             type: page,
             color: `rgb(${Math.floor(
@@ -238,6 +269,10 @@ class InputForm extends React.Component {
       await value.updateTodo(createTodo);
     }
 
+    this.props.dispatch({
+      type: 'global/removeLocation',
+      payload: { page }
+    })
     this.props.dispatch({
       type: 'global/removePhoto',
       payload: { page }
@@ -265,10 +300,13 @@ class InputForm extends React.Component {
   //https://reactnativemaster.com/react-native-camera-expo-example
   // Local path to file on the device
   render() {
-    const { navigation, page } = this.props;
+    const { navigation, page, dispatch } = this.props;
     let photo = this.props.page == "Expense" ? this.props.expensePhoto : (this.props.page == "Income" ? this.props.incomePhoto : this.props.otherPhoto);
     let location = this.props.page == "Expense" ? this.props.expenseLocation : this.props.otherLocation;
     console.log("locationrender", location);
+    console.log(this.state.item);
+    console.log("this.state.category");
+    console.log(this.state.category);
     return (
       <Context.Consumer>
         {value => (
@@ -292,7 +330,7 @@ class InputForm extends React.Component {
                       }>
                       {photo ?
                         <Image source={{ uri: photo.uri }} style={{ width: 200, height: 150 }} />
-                        : null
+                        : <></>
                       }
                       <Text style={styles.notes}>
                         Photo
@@ -302,16 +340,29 @@ class InputForm extends React.Component {
                         style={{ color: "black", fontSize: 20 }}
                       />
                     </TouchableOpacity>
-                  </View> : null}
+                    {photo ?
+                      <TouchableOpacity
+                        style={{
+                          alignSelf: 'flex-end',
+                          alignItems: 'center',
+                        }}
+                        onPress={() =>
+                          this.props.dispatch({
+                            type: 'global/removePhoto',
+                            payload: { page }
+                          })
+                        }>
+                        <FontAwesome
+                          name="remove"
+                          style={{ color: "black", fontSize: 20 }}
+                        />
+                      </TouchableOpacity> : <></>}
+                  </View> : <></>}
                 <View>
                   <Text style={styles.notes}>Category</Text>
                   <RNPickerSelect
-                    style={{
-                      height: 20,
-                      fontSize: 19,
-                      marginTop: 3,
-                    }}
-                    value={photo ? "food" : ''}
+                    style={pickerStyle}
+                    value={photo && page == "Expense" ? "food" : this.state.category}
                     onValueChange={(value) => this.setState({ category: value })}
                     items={page != "Income" ? [
                       { label: 'Household', value: 'household' },
@@ -340,7 +391,7 @@ class InputForm extends React.Component {
                     onChangeText={text =>
                       this.setState({ item: text })
                     }
-                    value={photo ? "Cheese wafer roll" : this.state.item}
+                    value={photo && page == "Expense" ? "Cheese wafer roll" : this.state.item}
                     placeholder="Item"
                   />
                 </View>
@@ -353,7 +404,7 @@ class InputForm extends React.Component {
                       marginTop: 3,
                     }}
                     onChangeText={amount => this.setState({ amount: amount.replace(/[^0-9.]/g, '') })}
-                    value={photo ? "20" : this.state.amount}
+                    value={photo && page == "Expense" ? "20" : this.state.amount}
                     placeholder="Amount"
                     keyboardType="decimal-pad"
                   />
@@ -390,10 +441,10 @@ class InputForm extends React.Component {
                     value={this.state.locationAddress}
                     placeholder="Location"
                   /> */}
-                  <Text style={styles.locationValue}>{location.name}</Text>
+                  <Text style={styles.locationValue}>{location ? location.name : ''}</Text>
                   {/* <Text>{JSON.stringify(this.state.location)}</Text>
                    */}
-                </View> : null}
+                </View> : <></>}
                 <View>
                   <Text style={styles.notes}>Notes</Text>
                   <TextInput
@@ -413,12 +464,12 @@ class InputForm extends React.Component {
                 </View>
               </View>
               <TouchableOpacity
-                disabled={this.state.amount === '' || this.state.item === ''}// || this.state.category === ''}
+                disabled={photo ? false : this.state.amount === '' || this.state.item === ''}// || this.state.category === ''}
                 style={[
                   styles.createTaskButton,
                   {
                     backgroundColor:
-                      this.state.amount === '' || this.state.item === '' //|| this.state.category === ''
+                      photo ? '#2E66E7' : this.state.amount === '' || this.state.item === '' //|| this.state.category === ''
                         ? 'rgba(46, 102, 231,0.5)'
                         : '#2E66E7',
                   },

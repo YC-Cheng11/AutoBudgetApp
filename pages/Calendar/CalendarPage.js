@@ -173,7 +173,7 @@ class CalendarPage extends React.PureComponent {
                 // fontWeight: '700',
               }}
             >
-              {item.category}:{item.item}
+              {item.category}:{item.item} ${item.amount}
             </Text>
           </View>
           <View>

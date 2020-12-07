@@ -119,7 +119,7 @@ const LocationPage = (props) => {
   };
 
   const renderFooter = () => {
-    return loadingList ? <View><Text>Loading...</Text></View> : null
+    return loadingList ? <View><Text>Loading...</Text></View> : <></>
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>

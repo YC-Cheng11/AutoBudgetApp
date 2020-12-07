@@ -18,7 +18,7 @@ import MonthlyExpense from './RecordList/MonthlyExpense';
 import DailyExpense from './RecordList/DailyExpense';
 import LocationComponent from './Common/LocationComponent';
 import CameraComponent from './Common/CameraComponent';
-
+console.disableYellowBox = true;
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 

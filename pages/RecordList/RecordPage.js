@@ -27,7 +27,9 @@ class RecordPage extends React.PureComponent {
   }
 
   render() {
-    const { currentDate, todoList, monthlyList } = this.props;
+    const { route } = this.props;
+    const { currentDate, todoList, monthlyList } = route.params.params;
+    console.log(this.props.route);
     monthlyList.sort(this.compare);
     return (
       <Tab.Navigator>

@@ -5,23 +5,26 @@ import {
 } from 'react-native';
 import dva, { connect } from 'dva';
 import LocationFunction from './LocationFunction';
-class CameraComponent extends React.PureComponent {
+class LocationComponent extends React.PureComponent {
 
   setLocation = (location) => {
     const { route } = this.props;
     const { returnPage } = route.params;
-    console.log(location);
-    // this.props.dispatch({
-    //   type: 'global/updatePhoto',
-    //   payload: { photo, returnPage }
-    // })
-    // this.props.navigation.navigate(returnPage);
+    console.log("beforesetLocation",location);
+    this.props.dispatch({
+      type: 'global/updateLocation',
+      payload: { location, returnPage }
+    })
+    this.props.navigation.navigate(returnPage);
   };
 
   render() {
+    const { route } = this.props;
+    const { locationList } = route.params;
+
     return (
       <>
-        <LocationFunction setLocation={this.setLocation} />
+        <LocationFunction setLocation={this.setLocation} locationList={locationList} />
       </>
     )
   }
@@ -29,4 +32,4 @@ class CameraComponent extends React.PureComponent {
 export default connect(state => ({
   loading: state.loading,
   effects: state.loading.effects
-}))(CameraComponent);
+}))(LocationComponent);

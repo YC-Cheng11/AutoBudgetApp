@@ -60,6 +60,7 @@ const SearchPage = () => {
         {item.item}
         {'.'}
         {item.notes.toUpperCase()}
+        {"$"}{item.amount}
       </Text>
     );
   };

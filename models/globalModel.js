@@ -6,11 +6,12 @@ export default {
     userModel: "testing user model data",
     expensePhoto: null,
     incomePhoto: null,
-    otherPhoto: null
+    otherPhoto: null,
+    expenseLocation: '',
+    otherLocation: ''
   },
   reducers: {
     updatePhoto(state, { payload }) {
-      console.log("update photo", payload)
       if (payload.returnPage == "Income") {
         state.incomePhoto = payload.photo;
       } else if (payload.returnPage == "Expense") {
@@ -22,6 +23,43 @@ export default {
         ...state,
         ...payload,
       };
+    },
+    removePhoto(state, { payload }) {
+      if (payload.page == "Income") {
+        state.incomePhoto = null;
+      } else if (payload.page == "Expense") {
+        state.expensePhoto = null;
+      } else if (payload.page == "Other") {
+        state.otherPhoto = null;
+      }
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+    updateLocation(state, { payload }) {
+      if (payload.returnPage == "Expense") {
+        state.expenseLocation = payload.location;
+      } else if (payload.returnPage == "Other") {
+        state.otherLocation = payload.location;
+      }
+      return {
+        ...state,
+        ...payload,
+      };
+
+    },
+    removeLocation(state, { payload }) {
+      if (payload.page == "Expense") {
+        state.expenseLocation = null;
+      } else if (payload.page == "Other") {
+        state.otherLocation = null;
+      }
+      return {
+        ...state,
+        ...payload,
+      };
+
     }
   },
   effects: {

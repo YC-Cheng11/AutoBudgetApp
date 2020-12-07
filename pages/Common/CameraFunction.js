@@ -4,6 +4,7 @@ import { Camera } from 'expo-camera';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLinkProps } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
 
 export default function App(props) {
   const [hasPermission, setHasPermission] = useState(null);

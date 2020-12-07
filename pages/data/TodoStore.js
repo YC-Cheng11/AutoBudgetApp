@@ -91,10 +91,16 @@ export default class TodoStore extends Component {
   async UNSAFE_componentWillMount() {
     try {
       const todo = await AsyncStorage.getItem('TODO');
+      const item = await AsyncStorage.getItem('ITEM');
       if (todo !== null) {
         this.setState({
           todo: JSON.parse(todo),
         });
+      }
+      if (item != null) {
+        this.setState({
+          item: JSON.parse(item)
+        })
       }
     } catch (error) {
       // Error saving data
@@ -128,14 +134,10 @@ export default class TodoStore extends Component {
       }
     } else {
       const newTodo = [...this.state.todo, item];
-      console.log("newTodo");
-      console.log(JSON.stringify(newTodo));
       const jsonValue = JSON.stringify(newTodo);
       try {
         await AsyncStorage.setItem('TODO', jsonValue);
         AsyncStorage.setItem('TODO', jsonValue, () => {
-          console.log("newTodo 2");
-          console.log(jsonValue);
         })
         this.setState({
           todo: newTodo,
@@ -148,10 +150,6 @@ export default class TodoStore extends Component {
   };
 
   _updateItem = async item => {
-    // amount: '',
-    // notesText: '',
-    // category: '',
-    // item: '',
     const isExist = this.state.item.find(data => {
       if (data.amount === item.amount && data.notesText === item.notesText
         && data.category === item.category && data.item === item.item) {
@@ -161,7 +159,9 @@ export default class TodoStore extends Component {
 
     if (!isExist) {
       try {
+        console.log(this.state.item);
         const updatedItem = this.state.item.concat(item)
+        console.log(updatedItem);
         await AsyncStorage.setItem('ITEM', JSON.stringify(updatedItem));
 
         this.setState({

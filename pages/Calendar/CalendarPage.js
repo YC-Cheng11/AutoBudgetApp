@@ -193,7 +193,7 @@ class CalendarPage extends React.PureComponent {
   };
   render() {
     return (
-      <SafeAreaView showsVerticalScrollIndicator={false} >
+      <SafeAreaView showsVerticalScrollIndicator={true} >
         { this.renderCalendarWithSelectableDate()}
       </SafeAreaView>
     );
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   },
   viewTask: {
     position: 'absolute',
-    top: 0,
+    // top: 0,
     right: 17,
     height: 50,
     width: 50,

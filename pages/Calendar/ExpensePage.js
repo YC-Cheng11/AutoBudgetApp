@@ -20,10 +20,10 @@ import uuid from 'uuid';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 const styles = StyleSheet.create({
   createTaskButton: {
-    width: 252,
-    height: 48,
+    width: 180,
+    height: 40,
     alignSelf: 'center',
-    marginTop: 40,
+    marginTop: 20,
     borderRadius: 5,
     justifyContent: 'center',
   },
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   taskContainer: {
     marginTop: 5,
-    height: 400,
+    height: 'auto',
     width: 327,
     alignSelf: 'center',
     borderRadius: 20,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     shadowOpacity: 0.2,
     elevation: 5,
-    padding: 5,
+    padding: 15,
   },
   calenderContainer: {
     marginTop: 30,
@@ -148,7 +148,6 @@ class ExpensePage extends React.PureComponent {
     creatTodo: {},
     createEventAsyncRes: '',
   }
-
 
   componentWillUnmount() {
     Keyboard.removeListener('keyboardDidShow', this._keyboardDidShow);
@@ -217,6 +216,7 @@ class ExpensePage extends React.PureComponent {
       inputHeight: event.nativeEvent.contentSize.height
     });
   };
+
   //https://reactnativemaster.com/react-native-camera-expo-example
   // Local path to file on the device
   render() {
@@ -225,132 +225,150 @@ class ExpensePage extends React.PureComponent {
       <Context.Consumer>
         {value => (
           <>
-            <View style={styles.container}>
-              <ScrollView
-                contentContainerStyle={{
-                  paddingBottom: 100,
+            <ScrollView>
+              <View style={styles.taskContainer}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={styles.date}>Date: {this.props.route.params.currentDate}</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <TouchableOpacity
+                    style={{
+                      alignSelf: 'flex-end',
+                      alignItems: 'center',
+                    }}
+                    onPress={() =>
+                      navigation.navigate('camera', {
+                        returnPage: "Expense"
+                      })
+                    }>
+                    {this.props.photo ?
+                      <Image source={{ uri: this.props.photo.uri }} style={{ width: 200, height: 150 }} />
+                      : null
+                    }
+                    <Text style={styles.date}>
+                      Take Photo
+                        </Text>
+                    <FontAwesome
+                      name="camera"
+                      style={{ color: "black", fontSize: 25 }}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <Text style={styles.notes}>Category</Text>
+                  <RNPickerSelect
+                    onValueChange={(value) => this.setState({ category: value })}
+                    items={[
+                      { label: 'Household', value: 'household' },
+                      { label: 'Food', value: 'food' },
+                      { label: 'Transportation', value: 'transportation' },
+                      { label: 'Social Life', value: 'socialLife' },
+                      { label: 'Beauty', value: 'beauty' },
+                      { label: 'Allowance', value: 'allowance' },
+                      { label: 'Salary', value: 'salary' },
+                      { label: 'Petty Cash', value: 'pettyCash' },
+                      { label: 'Bonus', value: 'bonus' },
+                      { label: 'Other', value: 'other' },
+                    ]}
+                  />
+                </View>
+                <View>
+                  <Text style={styles.notes}>Item</Text>
+                  <TextInput
+                    style={{
+                      height: 20,
+                      fontSize: 19,
+                      marginTop: 3,
+                    }}
+                    onChangeText={text =>
+                      this.setState({ item: text })
+                    }
+                    value={this.state.item}
+                    placeholder="Item"
+                  />
+                </View>
+                <View>
+                  <Text style={styles.notes}>Amount</Text>
+                  <TextInput
+                    style={{
+                      height: 25,
+                      fontSize: 19,
+                      marginTop: 3,
+                    }}
+                    onChangeText={amount => this.setState({ amount: amount.replace(/[^0-9.]/g, '') })}
+                    value={this.state.amount}
+                    placeholder="Amount"
+                    keyboardType="decimal-pad"
+                  />
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={styles.notes}>Location</Text>
+                  <TouchableOpacity
+                    style={{
+                      alignSelf: 'flex-end',
+                      alignItems: 'center',
+                    }}
+                    onPress={() =>
+                      navigation.navigate('location', {
+                        returnPage: "Expense"
+                      })
+                    }>
+                    {this.props.photo ?
+                      <Image source={{ uri: this.props.photo.uri }} style={{ width: 200, height: 150 }} />
+                      : null
+                    }
+                    <FontAwesome
+                      name="map-marker"
+                      style={{ color: "black", fontSize: 40 }}
+                    />
+                  </TouchableOpacity>
+                  {/* <Text>{JSON.stringify(this.state.location)}</Text>
+                   */}
+                </View>
+                <View>
+                  <Text style={styles.notes}>Notes</Text>
+                  <TextInput
+                    style={{
+                      height: Math.max(35, this.state.inputHeight),
+                      fontSize: 19,
+                      marginTop: 3,
+                    }}
+                    onContentSizeChange={(event) => this._handleSizeChange(event)}
+                    onChangeText={text =>
+                      this.setState({ notesText: text })
+                    }
+                    multiline={true}
+                    value={this.state.notesText}
+                    placeholder="Description"
+                  />
+                </View>
+              </View>
+              <TouchableOpacity
+                disabled={this.state.amount === '' || this.state.item === ''}// || this.state.category === ''}
+                style={[
+                  styles.createTaskButton,
+                  {
+                    backgroundColor:
+                      this.state.amount === '' || this.state.item === '' //|| this.state.category === ''
+                        ? 'rgba(46, 102, 231,0.5)'
+                        : '#2E66E7',
+                  },
+                ]}
+                onPress={async () => {
+                  this._handleCreateEventData(value);
                 }}
               >
-                <View style={styles.taskContainer}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.date}>Date: {this.props.route.params.currentDate}</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity
-                      style={{
-                        alignSelf: 'flex-end',
-                        alignItems: 'center',
-                      }}
-                      onPress={() =>
-                        navigation.navigate('camera', {
-                          returnPage: "Expense"
-                        })
-                      }>
-                      {this.props.photo ?
-                        <Image source={{ uri: this.props.photo.uri }} style={{ width: 200, height: 150 }} />
-                        : null
-                      }
-                      <Text style={styles.date}>
-                        Take Photo
-                        </Text>
-                      <FontAwesome
-                        name="camera"
-                        style={{ color: "#fff", fontSize: 40 }}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <Text style={styles.notes}>Category</Text>
-                    <RNPickerSelect
-                      onValueChange={(value) => this.setState({ category: value })}
-                      items={[
-                        { label: 'Household', value: 'household' },
-                        { label: 'Food', value: 'food' },
-                        { label: 'Transportation', value: 'transportation' },
-                        { label: 'Social Life', value: 'socialLife' },
-                        { label: 'Beauty', value: 'beauty' },
-                        { label: 'Allowance', value: 'allowance' },
-                        { label: 'Salary', value: 'salary' },
-                        { label: 'Petty Cash', value: 'pettyCash' },
-                        { label: 'Bonus', value: 'bonus' },
-                        { label: 'Other', value: 'other' },
-                      ]}
-                    />
-                  </View>
-                  <View>
-                    <Text style={styles.notes}>Item</Text>
-                    <TextInput
-                      style={{
-                        height: 20,
-                        fontSize: 19,
-                        marginTop: 3,
-                      }}
-                      onChangeText={text =>
-                        this.setState({ item: text })
-                      }
-                      value={this.state.item}
-                      placeholder="Item"
-                    />
-                  </View>
-                  <View>
-                    <Text style={styles.notes}>Amount</Text>
-                    <TextInput
-                      style={{
-                        height: 25,
-                        fontSize: 19,
-                        marginTop: 3,
-                      }}
-                      onChangeText={amount => this.setState({ amount: amount.replace(/[^0-9.]/g, '') })}
-                      value={this.state.amount}
-                      placeholder="Amount"
-                      keyboardType="decimal-pad"
-                    />
-                  </View>
-                  <View>
-                    <Text style={styles.notes}>Notes</Text>
-                    <TextInput
-                      style={{
-                        height: Math.max(35, this.state.inputHeight),
-                        fontSize: 19,
-                        marginTop: 3,
-                      }}
-                      onContentSizeChange={(event) => this._handleSizeChange(event)}
-                      onChangeText={text =>
-                        this.setState({ notesText: text })
-                      }
-                      multiline={true}
-                      value={this.state.notesText}
-                      placeholder="Description"
-                    />
-                  </View>
-                </View>
-                <TouchableOpacity
-                  disabled={this.state.amount === '' || this.state.item === ''}// || this.state.category === ''}
-                  style={[
-                    styles.createTaskButton,
-                    {
-                      backgroundColor:
-                        this.state.amount === '' || this.state.item === '' //|| this.state.category === ''
-                          ? 'rgba(46, 102, 231,0.5)'
-                          : '#2E66E7',
-                    },
-                  ]}
-                  onPress={async () => {
-                    this._handleCreateEventData(value);
+                <Text
+                  style={{
+                    fontSize: 14,
+                    textAlign: 'center',
+                    color: '#fff',
                   }}
                 >
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      textAlign: 'center',
-                      color: '#fff',
-                    }}
-                  >
-                    ADD YOUR EXPENSE
+                  ADD YOUR EXPENSE
                 </Text>
-                </TouchableOpacity>
-              </ScrollView>
-            </View>
+              </TouchableOpacity>
+            </ScrollView>
           </>
         )}
       </Context.Consumer>

@@ -15,6 +15,7 @@ import CreateTask from './Calendar/CreateTaskPage';
 import TodoStore from './data/TodoStore';
 import MonthlyExpense from './RecordList/MonthlyExpense';
 import DailyExpense from './RecordList/DailyExpense';
+import LocationComponent from './Common/LocationComponent';
 import CameraComponent from './Common/CameraComponent';
 
 const Stack = createStackNavigator();
@@ -57,6 +58,8 @@ class MainPage extends React.PureComponent {
 
         <Stack.Screen name="createTask" component={CreateTask} />
         <Stack.Screen name="camera" component={CameraComponent} />
+        <Stack.Screen name="location" component={LocationComponent} />
+        
       </Stack.Navigator>
 
     );
@@ -93,6 +96,7 @@ class MainPage extends React.PureComponent {
           options={{ title: 'Other' }} />
         <Stack.Screen name="createTask" component={CreateTask} />
         <Stack.Screen name="camera" component={CameraComponent} />
+        <Stack.Screen name="location" component={LocationComponent} />
       </Stack.Navigator>
 
     );
@@ -128,6 +132,7 @@ class MainPage extends React.PureComponent {
           options={{ title: 'Other' }} />
         <Stack.Screen name="createTask" component={CreateTask} />
         <Stack.Screen name="camera" component={CameraComponent} />
+        <Stack.Screen name="location" component={LocationComponent} />
       </Stack.Navigator>
     );
   }
@@ -163,6 +168,7 @@ class MainPage extends React.PureComponent {
           options={{ title: 'Other' }} />
         <Stack.Screen name="createTask" component={CreateTask} />
         <Stack.Screen name="camera" component={CameraComponent} />
+        <Stack.Screen name="location" component={LocationComponent} />
       </Stack.Navigator>
     );
   }
@@ -197,6 +203,7 @@ class MainPage extends React.PureComponent {
           options={{ title: 'Other' }} />
         <Stack.Screen name="createTask" component={CreateTask} />
         <Stack.Screen name="camera" component={CameraComponent} />
+        <Stack.Screen name="location" component={LocationComponent} />
       </Stack.Navigator>
     );
   }
